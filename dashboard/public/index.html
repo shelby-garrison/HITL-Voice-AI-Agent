@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Human Fallback Dashboard</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; }
+    .card { border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>🧑‍💻 Human Requests Dashboard</h1>
+  <div id="requests"></div>
+
+  <script>
+    const answerCache = {};
+  
+    async function loadRequests() {
+      const res = await fetch('http://localhost:5000/api/requests');
+      const data = await res.json();
+      const container = document.getElementById('requests');
+      container.innerHTML = '';
+  
+      data.forEach(req => {
+        const id = req.id;
+        const cachedText = answerCache[id] || "";
+  
+        const div = document.createElement('div');
+        div.className = 'card';
+        div.innerHTML = `
+          <p><strong>Question:</strong> ${req.question}</p>
+          <textarea id="answer-${id}" placeholder="Enter answer here...">${cachedText}</textarea><br>
+          <button onclick="sendAnswer('${id}')">Send Answer</button>
+        `;
+  
+        container.appendChild(div);
+  
+      
+        setTimeout(() => {
+          const textarea = document.getElementById(`answer-${id}`);
+          textarea.addEventListener('input', () => {
+            answerCache[id] = textarea.value;
+          });
+        }, 0);
+      });
+    }
+  
+    async function sendAnswer(id) {
+      const answer = document.getElementById(`answer-${id}`).value;
+      if (!answer) return alert("Please enter an answer.");
+      console.log(answer)
+      await fetch(`http://localhost:5000/api/requests/${id}/answer`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answer })
+      });
+      alert("Answer sent!");
+      delete answerCache[id]; // clear cache
+      loadRequests();
+    }
+  
+    loadRequests();
+    setInterval(loadRequests, 10000);
+  </script>
+  
+</body>
+</html>
