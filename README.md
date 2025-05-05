@@ -39,6 +39,13 @@ You can access the agent via https://agents-playground.livekit.io/
 
 ###  4. Run Dashboard Server (Port 5000)
 
+ Installing dependencies:
+```bash
+npm install
+```
+
+Running dashboard server:
+
 ```bash
 # From the dashboard directory
 cd dashboard
