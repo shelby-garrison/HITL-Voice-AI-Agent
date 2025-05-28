@@ -1,4 +1,31 @@
+# Human-in-the-Loop Voice AI Agent
 
+This project is a locally running prototype of a human-in-the-loop AI system that interacts with customers over phone calls. It escalates queries to a human supervisor when it doesn't know the answer, follows up with the customer, and updates its internal knowledge base accordingly.
+
+## 🔧 Functionalities
+
+### 1. AI Agent Setup (via LiveKit)
+- Simulated AI agent initialized with basic business info about a fake salon.
+- Handles incoming calls using LiveKit.
+- Responds to known questions directly.
+- Triggers an event for unknown queries when human assistance is needed.
+
+### 2. Human Request Handling
+- Creates a structured help request to human supervisor.
+- Simulates notifying a supervisor via console logs and webhooks
+
+### 3. Supervisor Response Interface
+- Web-based UI for supervisors to:
+  - View all pending help requests
+  - Submit answers to queries
+  
+- Once answered:
+  - AI sends follow-up to original caller.
+  - Answer is saved to the knowledge base of the voice AI agent.
+
+
+ **SETUP INSTRUCTIONS**
+ 
 ##  LiveKit Assistant Setup
 
 ###  1. Create Virtual Environment & Install Dependencies
